@@ -3,27 +3,39 @@ import Router from 'vue-router'
 // 导入刚才编写的组件
 import Login from '../components/Login'
 import Layout from "../components/Layout";
+import Home from '../components/Home'
 
 Vue.use(Router)
 
 export default new Router({
-  mode:"history",
+  mode: "history",
   routes: [
     // 下面都是固定的写法
     {
-      path:'/',
-      component:Login
-    },
-    {
-      path: '/login',
+      path: '/',
       component: Login
     },
     {
-      path: '/index',
-      component: Layout,
-      meta:{
-        requireAuth:true
-      }
+      path: '/home',
+      name: 'Home',
+      component: Home,
+      // home页面并不需要被访问
+      redirect: '/index',
+      children: [
+        {
+          path: '/index',
+          name: 'AppIndex',
+          component: Layout,
+          meta: {
+            requireAuth: true
+          }
+        }
+      ]
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
   ]
 })
